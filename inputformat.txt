@@ -1,0 +1,15 @@
+numvertex
+depotindex
+numreq
+numnonreq
+Q
+
+LIST_Edges_REQ : 
+ (  1,  5)   cost     3   demand     4
+ (  1,  9)   cost     3   demand     9
+ (  1, 11)   cost     7   demand    12
+ (  1, 19)   cost     4   demand    13
+ (  1, 20)   cost     5   demand    13
+ (  2,  4)   cost     1   demand     2
+ (  2,  5)   cost     3   demand    12
+ (  2, 10)   cost     2   demand     5
