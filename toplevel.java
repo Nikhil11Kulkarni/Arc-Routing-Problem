@@ -4,48 +4,68 @@ import java.io.*;
 
 public class toplevel {
 
-  int totreqE,totnonreqE; 
-  reqEdgeclass[] requiredE ;
-	vertex vertexarr ;
+public static int totreqE,totnonreqE,totvertex; 
+public static datainput input1 ;
   
-  public static void main(String[] args){
+public static void main(String[] args){
 
+input1=new datainput(args[0]);
+totreqE=input1.numreq ;
+totvertex=input1.numvertex;
+totnonreqE=input1.numnonreq;
+//System.out.println("total required is :"+totreqE );
 
+initialsolution myInit =new initialsolution(input1);
+
+printsolutionCARP printinitialsolution=new printsolutionCARP (myInit.intitailsol);
+
+solutionCARP intialsoltop=new solutionCARP();
+intialsoltop=myInit.intitailsol ;
+solutionCARP currsoltop=new solutionCARP();
+currsoltop=intialsoltop ;
+int stoppingcondition=0;
+
+while(stoppingcondition<=50){
+	neighbourhoodsearch firstans =new neighbourhoodsearch(currsoltop);
+	if(firstans.gotanswer==false){
+		// tabulist.add(currsoltop) ;
+		// firstans=perturbsolution(currsoltop);
+		// stoppingcondition++;
+	}
+//SOME CONDITION TO REDUCE stoppingcodition INTEGER
+currsoltop=firstans;
+}
+
+//HERE THE FINAL CURRSOLTOP WILL BE THE SOLUTION OF OUR CODE ...THEN CALL PRINTSOLUTIONCARP()
+
+  }
+
+}//end of public class
+
+////////////////////////////////COMMENTS:-
 
 	//first take input .txt file
  	//give that as input datainput 
-datainput input1=new datainput(args[0]);
-totreqE=input1.numreq ;
-totnonreqE=input1.numnonreq;
-requiredE=new reqEdgeclass[totreqE];
-requiredE=input1.reqEdge;
-
-
+ 	// requiredE=new reqEdgeclass[totreqE];
+// requiredE=input1.reqEdge;
 //sort first the edges in reqE and nonreqE
-for (int i=0;i<totreqE;i++){
-requiredE[i].iverttex ;/*HERE I WILL USE INBUILT HASMAPS FOR EVERY IVERTEX AND HASH(IVERTEX) SHOULD POINT TO A  ARRAY OF VERTEX(IVERTEX,LAMBDA)*/
-} 
-
 //then go for Hashing
-
-vertexarr=new vertex[input1.numvertex];
-
-for(int i=0;i<input1.numvertex;i++){
-vertexarr[i].setindex(i);
-vertexarr[i].setnumsucc(/*get size of hashmap corresponding ith index*/);
-
-// public void setnumsucc(int kerb1){numsucc=kerb1;}
-// public void setkvisit(int k1){kvisit=k1;}
-// public void setsucc(reqEdgeclass[] k1){succ=k1;}
-
-}
-
 //then form vertex array and make succ
  	//then call initial solution
+
  	//call neighbourhood local search
  	//then define tabu list 
  	//call implemention of tabu search
   	//call print_result
-  }
 
-}//end of public class
+////////////////////PRINT SOLUTION 
+// System.out.println("Cost of solution is: "+myInit.costofsolution);
+// for(int j=0;j<myInit.finalans.size();j++){
+// 	System.out.print("Tour: "+ (j+1));
+// 	System.out.print(" cost: "+ myInit.finalans.get(j).totalcost);
+// 	System.out.println(" demand: "+ myInit.finalans.get(j).totaldemand);	
+// 	String strprint=myInit.finalans.get(j).answerpath.toString();
+// 	System.out.println(strprint);
+
+// }
+// System.out.println("game is NOT over");
