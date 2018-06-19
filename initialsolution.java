@@ -126,14 +126,25 @@ public  int minDistance(float dist[], Boolean sptSet[])
         return min_index;
     }
 
-public float findcostbetweenV(int u,int v){
+public float findcostbetweenV(int u,int v){ // NOTE: here only we have considered the use of graph 
+											// we can add the NONRequired graph+Required graph here to join and then find the path
 	 boolean present=false;
-	 for(int i=0; i<nonreqmatrInit.get(u).size() ; i++){
-	 	if(nonreqmatrInit.get(u).get(i).jvertex==v){
+	 int maxsize=Math.max(reqmatrInit.get(u).size() , nonreqmatrInit.get(u).size() );
+	 //i can add here Vector minimum function so that it will give answer of minimum distance bw src and depot
+	 for(int i=0; i<maxsize ; i++){
+	 	if(i<nonreqmatrInit.get(u).size()){
+	 		if(nonreqmatrInit.get(u).get(i).jvertex==v ){
 	 		present=true ;
-	 		return nonreqmatrInit.get(u).get(i).cost ; 
-	 	
+	 			return nonreqmatrInit.get(u).get(i).cost ; 
+	 		}	 		
 	 	}
+	 	if(i<reqmatrInit.get(u).size()){
+	 		if( reqmatrInit.get(u).get(i).jvertex==v ){
+	 		present=true ;
+	 			return reqmatrInit.get(u).get(i).cost ; 
+	 		}	
+	 	}
+
 
 	 }
 	 return 0;
@@ -145,13 +156,12 @@ public void dijkstra( int src){
 	// update all parameters of  the Init-(i don;t think if we have to update matr )
 
 int kh=0;
-        float dist[] = new float[input1.numvertex]; // but we won't use it whole coz we will stop loopafter getting depot
+        float dist[] = new float[input1.numvertex]; // NOTE:but we won't use it whole coz we will stop loopafter getting depot
  		int V=input1.numvertex;
      	int[] prev=new int[V];
         Boolean sptSet[] = new Boolean[input1.numvertex];
         for (int i = 0; i < V; i++)
         {
-
             dist[i] = Float.MAX_VALUE;
             sptSet[i] = false;
         }

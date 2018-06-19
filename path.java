@@ -26,6 +26,30 @@ public path(){
 
 }
 
+public void combinepath(path addingpath){
+	this.totalcost=this.totalcost + addingpath.totalcost ;
+	this.totaldemand=this.totaldemand + addingpath.totaldemand ;
+	this.totalrequiredserved=this.totalrequiredserved + addingpath.totalrequiredserved ;
+	this.costsequence.addAll(addingpath.costsequence);
+	this.isrequiredEdge.addAll(addingpath.isrequiredEdge);
+	this.demandsequence.addAll(addingpath.demandsequence);
+int k=0;
+while(k<addingpath.answersequence.size()){
+	if(k==0 ){
+		if(k==0 && this.answersequence.get(this.answersequence.size()-1) !=addingpath.answersequence.get(k) ){
+			this.answersequence.add(addingpath.answersequence.get(k));	
+		}	
+	}
+else{
+	this.answersequence.add( addingpath.answersequence.get(k));	
+}
+
+k++ ;
+}
+   
+
+
+}
 
 
 public void addvertex(int a){

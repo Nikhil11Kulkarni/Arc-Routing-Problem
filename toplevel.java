@@ -17,6 +17,7 @@ totnonreqE=input1.numnonreq;
 
 initialsolution myInit =new initialsolution(input1);
 
+System.out.println("initial solution is: ");
 printsolutionCARP printinitialsolution=new printsolutionCARP (myInit.intitailsol);
 
 solutionCARP intialsoltop=new solutionCARP();
@@ -26,14 +27,20 @@ currsoltop=intialsoltop ;
 int stoppingcondition=0;
 
 while(stoppingcondition<=50){
-	neighbourhoodsearch firstans =new neighbourhoodsearch(currsoltop);
-	if(firstans.gotanswer==false){
-		// tabulist.add(currsoltop) ;
-		// firstans=perturbsolution(currsoltop);
+	neighbourhoodsearch ansneighbourhood =new neighbourhoodsearch(currsoltop,input1);
+	if(ansneighbourhood.gotanswer==false){
+		System.out.println("LOCAL OPTIMUM reached here .");
+		return 0;
+		// tabulist.add(currsoltop) ; //as this is the LOCAL OPTIMUM
+		// perturbsolution perturbedneighboursol=new perturbsolution(currsoltop);
+		// ansneighbourhood.firstbestsolution=perturbsolution.leastbad ;
 		// stoppingcondition++;
 	}
 //SOME CONDITION TO REDUCE stoppingcodition INTEGER
-currsoltop=firstans;
+currsoltop=ansneighbourhood.firstbestsolution;//firstbestsolution--> this is the solutionCARP
+System.out.println("first best neighbour :");
+printsolutionCARP printinitialsolution=new printsolutionCARP (currsoltop);
+
 }
 
 //HERE THE FINAL CURRSOLTOP WILL BE THE SOLUTION OF OUR CODE ...THEN CALL PRINTSOLUTIONCARP()
@@ -42,30 +49,3 @@ currsoltop=firstans;
 
 }//end of public class
 
-////////////////////////////////COMMENTS:-
-
-	//first take input .txt file
- 	//give that as input datainput 
- 	// requiredE=new reqEdgeclass[totreqE];
-// requiredE=input1.reqEdge;
-//sort first the edges in reqE and nonreqE
-//then go for Hashing
-//then form vertex array and make succ
- 	//then call initial solution
-
- 	//call neighbourhood local search
- 	//then define tabu list 
- 	//call implemention of tabu search
-  	//call print_result
-
-////////////////////PRINT SOLUTION 
-// System.out.println("Cost of solution is: "+myInit.costofsolution);
-// for(int j=0;j<myInit.finalans.size();j++){
-// 	System.out.print("Tour: "+ (j+1));
-// 	System.out.print(" cost: "+ myInit.finalans.get(j).totalcost);
-// 	System.out.println(" demand: "+ myInit.finalans.get(j).totaldemand);	
-// 	String strprint=myInit.finalans.get(j).answerpath.toString();
-// 	System.out.println(strprint);
-
-// }
-// System.out.println("game is NOT over");
