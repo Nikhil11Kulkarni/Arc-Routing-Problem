@@ -12,8 +12,10 @@ public solutionCARP crossexchangebestsol ;
 public solutionCARP blockexchangebestsol ;
 
 //ADD here the bestIn neighborsolution
-public removereplaceupdate(int i,int i1,int i2){
+public void removereplaceupdate(int i,int i1,int i2){
 
+// System.out.println("i: "+i+" i1: "+i1+" i2: "+i2);
+// System.out.println("processing path: "+finalans.get(i).answersequence);
 				////CLONING
 	//MAKKE A COPY PF THIS SOLUTIONCARP HERE......AND USE IT AT 2 PLACES
 	//1.BEFORE 2JOINING
@@ -23,10 +25,8 @@ public removereplaceupdate(int i,int i1,int i2){
 	currcopy.costofsolutionCARP=this.costofsolutionCARP;
 	currcopy.havebetterneighbour=false;
 		for(int a=0;a<this.finalans.size();a++){
-			currcopy.finalans.set(a,finalans.get(a).clone());
+			currcopy.finalans.add(finalans.get(a).clone());
 		}
-
-
 
 
 	havebetterneighbour=false;
@@ -37,6 +37,7 @@ public removereplaceupdate(int i,int i1,int i2){
 
 path removedreqE=new path();//this has to be join in another path (**full of required Edges) 
 
+System.out.println("before rem -answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
 for(int k=i1;k<=i2;k++){
 
 	float costminus = finalans.get(i).costsequence.get(i1);
@@ -71,15 +72,22 @@ for(int k=i1;k<=i2;k++){
 
 }
 
+System.out.println("answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
+//System.out.println("removed req E: "+removedreqE.answersequence);
 
+dijkstraCARP pathjoinI1I2=new dijkstraCARP ( (int)finalans.get(i).answersequence.get(i1) , (int)finalans.get(i).answersequence.get(i1+1));
 
-dijkstraCARP pathjoinI1I2=new dijkstraCARP (finalans.get(i).answersequence.get(i1),finalans.get(i).answersequence.get(i1+1));
+//System.out.println("dijkstra ka sol: "+pathjoinI1I2.pathsrctodest.answersequence);
 
 finalans.get(i).totalcost = finalans.get(i).totalcost + pathjoinI1I2.pathsrctodest.totalcost;
 //finalans.get(i).totaldemand = finalans.get(i).totaldemand + pathjoinI1I2.totaldemand;
 // as required added is equial to zero so no change in totaldemand and total required
 	int p=i1;
-for(int int k=0;k<pathjoinI1I2.pathsrctodest.costsequence.size() ;k++){
+if(pathjoinI1I2.pathsrctodest.costsequence.size()==0 && finalans.get(i).answersequence.get(i1) ==finalans.get(i).answersequence.get(i1+1)){
+finalans.get(i).answersequence.remove(i1);
+}	
+
+for(int  k=0;k<pathjoinI1I2.pathsrctodest.costsequence.size() ;k++){
 
 
 finalans.get(i).costsequence.add(p, pathjoinI1I2.pathsrctodest.costsequence.get(k));
@@ -102,6 +110,17 @@ else{
 
 p++;
 }
+//System.out.println("after 1st joining: "+finalans.get(i).answersequence);
+
+
+	solutionCARP removedcopy=new solutionCARP();
+	removedcopy.numberoftours=this.numberoftours;
+	removedcopy.costofsolutionCARP=this.costofsolutionCARP;
+	removedcopy.havebetterneighbour=false;
+		for(int a=0;a<this.finalans.size();a++){
+			removedcopy.finalans.add(finalans.get(a).clone());
+		}
+
 
 
 //apply dijkstra between (vertex i1)i1 to (vertex i2+1)i1+1 
@@ -116,17 +135,22 @@ p++;
 for(int k=0;k<numberoftours;k++){
 	if(k!=i){	
 		int numnonreq=0;
-		for(l=0;l<finalans.get(k).isrequiredEdge.size();l++){
-				if(finalans.get(k).isrequiredEdge.get(l)==false){
+		for(int l=0;l<finalans.get(k).isrequiredEdge.size();l++){
+				if(finalans.get(k).isrequiredEdge.get(l)==false && l!=finalans.get(k).isrequiredEdge.size()){
 					numnonreq++;
+//				System.out.println("```````l : "+l+" isrequiredEdge.size: "+finalans.get(k).isrequiredEdge.size());
 					if(numnonreq==3){
 
 
-						deletebetweenI1I2(k,l-2 , l+1);
+
+						deletebetweenI1I2(k,l-2 , l+1); //AFTER REMOVING THIS L+1th VERTEX WILL BECOME L-1th so PLEASE KEEP THIS IN MIND WHILE ADDING PATH
 						int dummyfornow=removedreqE.answersequence.size() - 1;
 						dijkstraCARP pathjoin1=new dijkstraCARP (finalans.get(k).answersequence.get(l-2),removedreqE.answersequence.get(0));//check here for n Vertices and n+1 Edges
-						dijkstraCARP pathjoin2=new dijkstraCARP (removedreqE.answersequence.get(dummyfornow) , finalans.get(k).answersequence.get(l+1)); 
-					//i have to join (pathjoin1.path + removedreqE + pathjoin2.path) from "l-2"
+//				System.out.println("answersequence.size: "+finalans.get(k).answersequence.size());
+//				System.out.println("l : "+l+" isrequiredEdge.size: "+finalans.get(k).isrequiredEdge.size());
+				
+						dijkstraCARP pathjoin2=new dijkstraCARP (removedreqE.answersequence.get(dummyfornow) , finalans.get(k).answersequence.get(l-1)); 
+							//i have to join (pathjoin1.path + removedreqE + pathjoin2.path) from "l-2"
 						pathjoin1.pathsrctodest.combinepath(removedreqE);//just addAll
 						pathjoin1.pathsrctodest.combinepath(pathjoin2.pathsrctodest);
 						path pathjoincombined=pathjoin1.pathsrctodest ;
@@ -135,17 +159,18 @@ for(int k=0;k<numberoftours;k++){
 							float oldcostCARP=this.costofsolutionCARP ;
 							this.costofsolutionCARP=0;	
 							this.numberoftours=0;
-						int p=0;
+						int pl=0;
 						for(int pq=0;pq<finalans.size();pq++){
-							if(finalans.get(p).totalrequiredserved==0 && finalans.get(p).totaldemand==0){finalans.remove(p); p--;}
-							else{this.costofsolutionCARP=this.costofsolutionCARP+finalans.get(p).totalcost ;
+							if(finalans.get(pl).totalrequiredserved==0 && finalans.get(pl).totaldemand==0){finalans.remove(pl); pl--;}
+							else{this.costofsolutionCARP=this.costofsolutionCARP+finalans.get(pl).totalcost ;
 									this.numberoftours++;
 								} 
-							p++;
+							pl++;
 						}
 
 						if(oldcostCARP>this.costofsolutionCARP){havebetterneighbour=true ;}
 						else{
+					this.finalans.set(k,removedcopy.finalans.get(k).clone());
 							//get our obj back 2nd cloning need
 							//and again try for re-joiing double path combine 
 						}
@@ -169,6 +194,15 @@ for(int k=0;k<numberoftours;k++){
 //if i don't get a single space to replace OR
 //i don't get a single good solution than current
 //then make bool false 
+	// for(int a=0;a<currcopy.finalans.size();a++){
+	// 		this.finalans.add(finalans.get(a).clone());
+	// }
+
+if(havebetterneighbour==false){
+		this.numberoftours=	currcopy.numberoftours;
+		this.costofsolutionCARP=	currcopy.costofsolutionCARP;
+		this.finalans=currcopy.finalans ;
+}
 
 
 }
@@ -206,30 +240,30 @@ public void deletebetweenI1I2(int i,int i1,int i2){ /// i1 and i2 should be the 
 }
 
 public void joindijkstrapathI1I2(int i,int i1, int i2, path pathtobejoin){
-	finalans.get(i).totalcost = finalans.get(i).totalcost + pathtobejoin.pathsrctodest.totalcost;
+	finalans.get(i).totalcost = finalans.get(i).totalcost + pathtobejoin.totalcost;
 finalans.get(i).totaldemand = finalans.get(i).totaldemand + pathtobejoin.totaldemand;
 
 //here it will be   l-2(present) so add from place l-1 in vertices
 //in edges add from l-2
 
 	int p=i1;	//l-2
-for(int int k=0; k<pathtobejoin.pathsrctodest.costsequence.size() ;k++){
+for(int  k=0; k<pathtobejoin.costsequence.size() ;k++){
 
-finalans.get(i).costsequence.add(p, pathtobejoin.pathsrctodest.costsequence.get(k));
-finalans.get(i).demandsequence.add(p ,pathtobejoin.pathsrctodest.demandsequence.get(k) );
-finalans.get(i).isrequiredEdge.add( p, pathtobejoin.pathsrctodest.isrequiredEdge.get(k));
-	if(pathtobejoin.pathsrctodest.isrequiredEdge.get(k)==true)	totalrequiredserved++;
+finalans.get(i).costsequence.add(p, pathtobejoin.costsequence.get(k));
+finalans.get(i).demandsequence.add(p ,pathtobejoin.demandsequence.get(k) );
+finalans.get(i).isrequiredEdge.add( p, pathtobejoin.isrequiredEdge.get(k));
+	if(pathtobejoin.isrequiredEdge.get(k)==true) finalans.get(i).totalrequiredserved++;
 
-if(k==0 || k==(pathtobejoin.pathsrctodest.costsequence.size()-1)){
-	if(k==0 && finalans.get(i).answersequence.get(p) !=pathtobejoin.pathsrctodest.answersequence.get(k) ){
-			finalans.get(i).answersequence.add(p+1 ,pathtobejoin.pathsrctodest.answersequence.get(k));	
+if(k==0 || k==(pathtobejoin.costsequence.size()-1)){
+	if(k==0 && finalans.get(i).answersequence.get(p) !=pathtobejoin.answersequence.get(k) ){
+			finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));	
 	}
-	if(k==(pathtobejoin.pathsrctodest.costsequence.size()-1) && finalans.get(i).answersequence.get(p+1) !=pathtobejoin.pathsrctodest.answersequence.get(k)){
-		finalans.get(i).answersequence.add(p+1 ,pathtobejoin.pathsrctodest.answersequence.get(k));			
+	if(k==(pathtobejoin.costsequence.size()-1) && finalans.get(i).answersequence.get(p+1) !=pathtobejoin.answersequence.get(k)){
+		finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));			
 	}	
 }
 else{
-	finalans.get(i).answersequence.add(p+1 ,pathtobejoin.pathsrctodest.answersequence.get(k));	
+	finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));	
 }   
 	
  

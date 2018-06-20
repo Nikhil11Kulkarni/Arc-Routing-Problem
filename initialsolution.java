@@ -167,17 +167,19 @@ int kh=0;
         }
         dist[src] = 0;
 		int storeprev=-1;
-        
+		prev[src]=storeprev;
         for (int count = 0; count < V; count++)
         {
             int u = minDistance(dist, sptSet);
             sptSet[u] = true;
- 		// System.out.println("currvertex: "+currvertex);
+ 		//System.out.println("minDistance u: "+u);
  		// System.out.println("u: "+u);
          	kh++;
-        prev[u]=storeprev;
-        storeprev=u;
+        // prev[u]=storeprev;//as -1 -->src -->
+        // storeprev=u;
+
  if(u==input1.depotindex){
+
             //updating answer here and going back for next path
 StringBuilder remainpathstring=new StringBuilder() ; 
 int examprev=u;
@@ -209,7 +211,6 @@ remainpathstring.append(" - "); //DOUBLE -- WILL COME IF YOU HAVE APPLIED DIJKST
 }//deleteCharAt()
 
 		Collections.reverse(remainingcostsequence);
-	
 		Collections.reverse(remainingsequence);
 		remainpathstring.reverse();
 		answer.addremainingpath(remainpathstring);
@@ -223,9 +224,12 @@ remainpathstring.append(" - "); //DOUBLE -- WILL COME IF YOU HAVE APPLIED DIJKST
    }
 
             for (int v = 0; v < V; v++) {
-                if (!sptSet[v] &&  (findcostbetweenV(u,v))!=0 &&  dist[u] != Float.MAX_VALUE && dist[u]+(findcostbetweenV(u,v)) < dist[v])
+                if (!sptSet[v] &&  (findcostbetweenV(u,v))!=0 &&  dist[u] != Float.MAX_VALUE && dist[u]+(findcostbetweenV(u,v)) < dist[v]){
+					prev[v]=u;
                     dist[v] = dist[u] + (findcostbetweenV(u,v));
-        	    }
+
+                }
+                   }
         }
 }
 
@@ -273,6 +277,7 @@ while(numremaining!=0){
 if(checkforcomplete==0){//we have to return depot
 dijkstra(currvertex);
 finalans.add(answer);
+//System.out.println("..."+answer.answersequence);
 }
 
 int k=0;
@@ -286,7 +291,7 @@ for(int count=0;count<totalpathsinfinalans;count++){
 k++;
 
 }
-intitailsol=new solutionCARP();
+intitailsol=new solutionCARP();//This is made as final initial solutionCARP to print 
 for(int i=0;i<finalans.size();i++){
 	intitailsol.addanswerpath(finalans.get(i));
 }

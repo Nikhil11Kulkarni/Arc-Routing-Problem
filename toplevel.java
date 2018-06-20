@@ -26,11 +26,12 @@ solutionCARP currsoltop=new solutionCARP();
 currsoltop=intialsoltop ;
 int stoppingcondition=0;
 
+System.out.println("Started searching in neighbourhood space :Block Exchange");
 while(stoppingcondition<=50){
 	neighbourhoodsearch ansneighbourhood =new neighbourhoodsearch(currsoltop,input1);
 	if(ansneighbourhood.gotanswer==false){
 		System.out.println("LOCAL OPTIMUM reached here .");
-		return 0;
+		break;
 		// tabulist.add(currsoltop) ; //as this is the LOCAL OPTIMUM
 		// perturbsolution perturbedneighboursol=new perturbsolution(currsoltop);
 		// ansneighbourhood.firstbestsolution=perturbsolution.leastbad ;
@@ -39,7 +40,7 @@ while(stoppingcondition<=50){
 //SOME CONDITION TO REDUCE stoppingcodition INTEGER
 currsoltop=ansneighbourhood.firstbestsolution;//firstbestsolution--> this is the solutionCARP
 System.out.println("first best neighbour :");
-printsolutionCARP printinitialsolution=new printsolutionCARP (currsoltop);
+printsolutionCARP printcurr=new printsolutionCARP (currsoltop);
 
 }
 

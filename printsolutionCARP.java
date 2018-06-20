@@ -8,9 +8,11 @@ public class printsolutionCARP {
 public printsolutionCARP(solutionCARP asol){
 	System.out.println("numberoftours : "+asol.numberoftours);
 	System.out.println("costofsolutionCARP : "+asol.costofsolutionCARP);
-	
+
+int pathnumber;	
 	for(int i=0;i<asol.numberoftours;i++){
-	System.out.println(asol.finalans.get(i).answersequence);
+		pathnumber=i+1;
+	System.out.println("path "+pathnumber+": "+asol.finalans.get(i).answersequence);
 }
 
 }

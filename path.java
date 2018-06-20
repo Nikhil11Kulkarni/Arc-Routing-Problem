@@ -26,6 +26,24 @@ public path(){
 
 }
 
+public path clone(){
+	path pathcopy=new path();
+	pathcopy.totalcost=this.totalcost;
+	pathcopy.totaldemand=this.totaldemand;
+	pathcopy.totalrequiredserved=this.totalrequiredserved;
+	pathcopy.answerpath=this.answerpath;
+
+	for(int i=0;i<this.isrequiredEdge.size();i++){
+		pathcopy.isrequiredEdge.add(this.isrequiredEdge.get(i));
+		pathcopy.costsequence.add(this.costsequence.get(i));
+		pathcopy.demandsequence.add(this.demandsequence.get(i));
+	}
+	for(int i=0;i<this.answersequence.size();i++){
+		pathcopy.answersequence.add(this.answersequence.get(i));
+	}
+	return pathcopy ;
+}
+
 public void combinepath(path addingpath){
 	this.totalcost=this.totalcost + addingpath.totalcost ;
 	this.totaldemand=this.totaldemand + addingpath.totaldemand ;
@@ -35,7 +53,8 @@ public void combinepath(path addingpath){
 	this.demandsequence.addAll(addingpath.demandsequence);
 int k=0;
 while(k<addingpath.answersequence.size()){
-	if(k==0 ){
+	if(k==0 && this.answersequence.size()>0){
+//		System.out.println("0o0o0o0o: "+this.answersequence.size());
 		if(k==0 && this.answersequence.get(this.answersequence.size()-1) !=addingpath.answersequence.get(k) ){
 			this.answersequence.add(addingpath.answersequence.get(k));	
 		}	
@@ -75,7 +94,8 @@ public void addremainingcostsequence(Vector<Float> v1){
 public void addremainingISREQUIREDBOOL(int addNONrequiredbynum){
 	for(int i=0;i<addNONrequiredbynum;i++){
 		isrequiredEdge.add(false);
-		demandsequence.add(0);
+		float ak=0;
+		demandsequence.add(ak);
 	}
 
 }
@@ -95,7 +115,8 @@ public void updatenonreq(nonreqEdgecl ans1){
 	addvertex(ans1.jvertex);
 	answersequence.add(ans1.jvertex);
 	isrequiredEdge.add(false);
-	demandsequence.add(0);
+	float akl=0;
+	demandsequence.add(akl);//(Float)0
 	costsequence.add(ans1.cost);
 }
 

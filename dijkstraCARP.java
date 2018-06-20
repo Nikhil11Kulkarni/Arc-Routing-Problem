@@ -12,13 +12,14 @@ public  int minDistance(float dist[], Boolean sptSet[])
         // Initialize min value
         float min = Float.MAX_VALUE;
         int min_index=-1;
- int V=input1.numvertex;
+ int V=toplevel.input1.numvertex;
+
         for (int v = 0; v < V; v++)
             if (sptSet[v] == false && dist[v] <= min)
             {
                 min = dist[v];
                 min_index = v;
-            }
+                            }
  
         return min_index;
     }
@@ -51,7 +52,7 @@ public float findcostbetweenV(int u,int v){ // NOTE: here only we have considere
 
 
 
-public void dijkstraCARP( int src , int dest){// i want input1 here
+public dijkstraCARP( int src , int dest){// i want input1 here
     pathsrctodest =new path();
     /// make answer upto depot 
     // update all parameters of the answer path
@@ -61,10 +62,10 @@ reqmatrInit=toplevel.input1.reqEdgematr;
 nonreqmatrInit=toplevel.input1.nonreqEdgematr ;
 
 int kh=0;
-        float dist[] = new float[input1.numvertex]; // but we won't use it whole coz we will stop loopafter getting depot
-        int V=input1.numvertex;
+        float dist[] = new float[toplevel.input1.numvertex]; // but we won't use it whole coz we will stop loopafter getting depot
+        int V=toplevel.input1.numvertex;
         int[] prev=new int[V];
-        Boolean sptSet[] = new Boolean[input1.numvertex];
+        Boolean sptSet[] = new Boolean[toplevel.input1.numvertex];
         for (int i = 0; i < V; i++)
         {
 
@@ -73,18 +74,22 @@ int kh=0;
         }
         dist[src] = 0;
         int storeprev=-1;
-        
+        prev[src]=storeprev;
+        storeprev=src;
         for (int count = 0; count < V; count++)
         {
             int u = minDistance(dist, sptSet);
             sptSet[u] = true;
         // System.out.println("currvertex: "+currvertex);
-        // System.out.println("u: "+u);
+    //    System.out.println("u: "+u);//*****************************
             kh++;
-        prev[u]=storeprev;
-        storeprev=u;
+
 
         if(u==dest){/////////////////////////
+
+            // for(int i=0;i<V;i++){
+            //     System.out.println("prev["+i+"]: "+prev[i]);//*****************************
+            // }
 
 int examprev=u;
 int capp=u;
@@ -110,7 +115,8 @@ remainingsequence.add(u);
         Collections.reverse(remainingsequence);
 
         for(int k=0;k<numberofverticestraversedinbacktodepot;k++){
-            pathsrctodest.demandsequence.add(0);
+            float akp=0;
+            pathsrctodest.demandsequence.add(akp);
             pathsrctodest.isrequiredEdge.add(false);
         }
 
@@ -126,8 +132,11 @@ pathsrctodest.costsequence=remainingcostsequence;
    }
 
             for (int v = 0; v < V; v++) {
-                if (!sptSet[v] &&  (findcostbetweenV(u,v))!=0 &&  dist[u] != Float.MAX_VALUE && dist[u]+(findcostbetweenV(u,v)) < dist[v])
+                if (!sptSet[v] &&  (findcostbetweenV(u,v))!=0 &&  dist[u] != Float.MAX_VALUE && dist[u]+(findcostbetweenV(u,v)) < dist[v]){
                     dist[v] = dist[u] + (findcostbetweenV(u,v));
+                    prev[v]=u;
+                }
+                    
                 }
         }
 }
