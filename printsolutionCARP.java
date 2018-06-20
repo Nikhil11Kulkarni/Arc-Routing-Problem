@@ -12,8 +12,11 @@ public printsolutionCARP(solutionCARP asol){
 int pathnumber;	
 	for(int i=0;i<asol.numberoftours;i++){
 		pathnumber=i+1;
-	System.out.println("path "+pathnumber+": "+asol.finalans.get(i).answersequence);
+	System.out.println("path "+pathnumber+": "+"demand: "+asol.finalans.get(i).totaldemand );
+	System.out.println("route: "+asol.finalans.get(i).answersequence);
 }
+
+	System.out.println("\n ");
 
 }
 

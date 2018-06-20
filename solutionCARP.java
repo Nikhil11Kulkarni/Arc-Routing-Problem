@@ -14,8 +14,8 @@ public solutionCARP blockexchangebestsol ;
 //ADD here the bestIn neighborsolution
 public void removereplaceupdate(int i,int i1,int i2){
 
-// System.out.println("i: "+i+" i1: "+i1+" i2: "+i2);
-// System.out.println("processing path: "+finalans.get(i).answersequence);
+//System.out.println("i: "+i+" i1: "+i1+" i2: "+i2);
+//System.out.println("processing path: "+finalans.get(i).answersequence);
 				////CLONING
 	//MAKKE A COPY PF THIS SOLUTIONCARP HERE......AND USE IT AT 2 PLACES
 	//1.BEFORE 2JOINING
@@ -37,7 +37,7 @@ public void removereplaceupdate(int i,int i1,int i2){
 
 path removedreqE=new path();//this has to be join in another path (**full of required Edges) 
 
-System.out.println("before rem -answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
+//System.out.println("before rem -answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
 for(int k=i1;k<=i2;k++){
 
 	float costminus = finalans.get(i).costsequence.get(i1);
@@ -72,46 +72,23 @@ for(int k=i1;k<=i2;k++){
 
 }
 
-System.out.println("answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
+//System.out.println("answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
 //System.out.println("removed req E: "+removedreqE.answersequence);
 
 dijkstraCARP pathjoinI1I2=new dijkstraCARP ( (int)finalans.get(i).answersequence.get(i1) , (int)finalans.get(i).answersequence.get(i1+1));
 
 //System.out.println("dijkstra ka sol: "+pathjoinI1I2.pathsrctodest.answersequence);
 
-finalans.get(i).totalcost = finalans.get(i).totalcost + pathjoinI1I2.pathsrctodest.totalcost;
+//finalans.get(i).totalcost = finalans.get(i).totalcost + pathjoinI1I2.pathsrctodest.totalcost;
 //finalans.get(i).totaldemand = finalans.get(i).totaldemand + pathjoinI1I2.totaldemand;
 // as required added is equial to zero so no change in totaldemand and total required
-	int p=i1;
-if(pathjoinI1I2.pathsrctodest.costsequence.size()==0 && finalans.get(i).answersequence.get(i1) ==finalans.get(i).answersequence.get(i1+1)){
-finalans.get(i).answersequence.remove(i1);
-}	
-
-for(int  k=0;k<pathjoinI1I2.pathsrctodest.costsequence.size() ;k++){
+///
 
 
-finalans.get(i).costsequence.add(p, pathjoinI1I2.pathsrctodest.costsequence.get(k));
-finalans.get(i).demandsequence.add(p ,pathjoinI1I2.pathsrctodest.demandsequence.get(k) );
-finalans.get(i).isrequiredEdge.add( p, pathjoinI1I2.pathsrctodest.isrequiredEdge.get(k));
+joindijkstrapathI1I2(i ,i1 ,i2 , pathjoinI1I2.pathsrctodest) ;
 
-if(k==0 || k==(pathjoinI1I2.pathsrctodest.costsequence.size()-1)){
-	if(k==0 && finalans.get(i).answersequence.get(p) !=pathjoinI1I2.pathsrctodest.answersequence.get(k) ){
-			finalans.get(i).answersequence.add(p+1 ,pathjoinI1I2.pathsrctodest.answersequence.get(k));	
-	}
-	if(k==(pathjoinI1I2.pathsrctodest.costsequence.size()-1) && finalans.get(i).answersequence.get(p+1) !=pathjoinI1I2.pathsrctodest.answersequence.get(k)){
-		finalans.get(i).answersequence.add(p+1 ,pathjoinI1I2.pathsrctodest.answersequence.get(k));			
-	}	
-}
-else{
-	finalans.get(i).answersequence.add(p+1 ,pathjoinI1I2.pathsrctodest.answersequence.get(k));	
-}   
-	
- 
-
-p++;
-}
 //System.out.println("after 1st joining: "+finalans.get(i).answersequence);
-
+//System.out.println("after 1st joining: answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
 
 	solutionCARP removedcopy=new solutionCARP();
 	removedcopy.numberoftours=this.numberoftours;
@@ -240,37 +217,57 @@ public void deletebetweenI1I2(int i,int i1,int i2){ /// i1 and i2 should be the 
 }
 
 public void joindijkstrapathI1I2(int i,int i1, int i2, path pathtobejoin){
-	finalans.get(i).totalcost = finalans.get(i).totalcost + pathtobejoin.totalcost;
+
+
+if(pathtobejoin.answersequence.size()==0){
+	if(finalans.get(i).answersequence.get(i1) ==finalans.get(i).answersequence.get(i1+1)){
+		finalans.get(i).answersequence.remove(i1);
+		//System.out.println("repitition remover applied "+finalans.get(i).answersequence.get(i1));
+	}
+}
+
+else if(pathtobejoin.answersequence.size()>=1){
+
+finalans.get(i).totalcost = finalans.get(i).totalcost + pathtobejoin.totalcost;
 finalans.get(i).totaldemand = finalans.get(i).totaldemand + pathtobejoin.totaldemand;
 
 //here it will be   l-2(present) so add from place l-1 in vertices
 //in edges add from l-2
 
 	int p=i1;	//l-2
-for(int  k=0; k<pathtobejoin.costsequence.size() ;k++){
+for(int  k=0; k<pathtobejoin.costsequence.size() ;k++){ //maybe costsequencea and answersequence has same length
 
 finalans.get(i).costsequence.add(p, pathtobejoin.costsequence.get(k));
 finalans.get(i).demandsequence.add(p ,pathtobejoin.demandsequence.get(k) );
 finalans.get(i).isrequiredEdge.add( p, pathtobejoin.isrequiredEdge.get(k));
 	if(pathtobejoin.isrequiredEdge.get(k)==true) finalans.get(i).totalrequiredserved++;
 
-if(k==0 || k==(pathtobejoin.costsequence.size()-1)){
-	if(k==0 && finalans.get(i).answersequence.get(p) !=pathtobejoin.answersequence.get(k) ){
-			finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));	
+if(k==0 || k==(pathtobejoin.answersequence.size()-1)){
+
+	if((pathtobejoin.answersequence.size()-1)==0){
+		if(finalans.get(i).answersequence.get(p)!=pathtobejoin.answersequence.get(k) && finalans.get(i).answersequence.get(p+1) !=pathtobejoin.answersequence.get(k)){
+			finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));
+		}
 	}
-	if(k==(pathtobejoin.costsequence.size()-1) && finalans.get(i).answersequence.get(p+1) !=pathtobejoin.answersequence.get(k)){
-		finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));			
+	else{	if((k==0 && finalans.get(i).answersequence.get(p) !=pathtobejoin.answersequence.get(k) )||
+		(k==(pathtobejoin.costsequence.size()-1) && finalans.get(i).answersequence.get(p+1) !=pathtobejoin.answersequence.get(k)))  {
+			finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));	
+		}
 	}	
 }
 else{
 	finalans.get(i).answersequence.add(p+1 ,pathtobejoin.answersequence.get(k));	
 }   
 	
- 
-
 p++;
 }
 //updates all 7 properties of particular pathS
+
+
+
+}
+
+
 }
 
 
