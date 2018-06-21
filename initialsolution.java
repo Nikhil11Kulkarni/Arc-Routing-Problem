@@ -87,6 +87,13 @@ nonreqmatrInit.get(currvertex).sort(new Comparator<nonreqEdgecl>() {
 		return -1;
 	}
 });//////////////////////YOU SHOULD NOT SORT THIS IF IT IS ALREADY SORTED ????
+if(nonreqmatrInit.get(currvertex).size()==0){
+	System.out.println(".."+reqmatrInit.get(currvertex).size());
+dijkstra(currvertex);
+finalans.add(answer);
+}
+else
+{
 int some= (this.kthvisit[currvertex])%(nonreqmatrInit.get(currvertex).size());
 this.kthvisit[currvertex]++;
 this.nstop ++;
@@ -99,6 +106,7 @@ this.currvertex=nonreqmatrInit.get(currvertex).get(some).jvertex ;
 if(nstop==50){
 	dijkstra(currvertex);//gives entire path to the depot
 	this.nstop=0;
+}
 }
 //ON THE BASIS OF CAPACITY FULFILLED 7%
 // if((input1.capacity*0.93) - answer.totaldemand <0){

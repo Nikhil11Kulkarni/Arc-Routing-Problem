@@ -4,16 +4,12 @@ import java.io.*;
 
 public class toplevel {
 
-public static int totreqE,totnonreqE,totvertex; 
 public static datainput input1 ;
   
 public static void main(String[] args){
 
 input1=new datainput(args[0]);
-totreqE=input1.numreq ;
-totvertex=input1.numvertex;
-totnonreqE=input1.numnonreq;
-//System.out.println("total required is :"+totreqE );
+
 
 initialsolution myInit =new initialsolution(input1);
 

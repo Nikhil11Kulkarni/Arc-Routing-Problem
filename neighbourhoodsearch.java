@@ -44,7 +44,7 @@ for(int i=0;i<currentsolution.numberoftours;i++){
 			//and if not posssible set a boolean false so that we will get to know here and move on as we should  
 			i1=-1; i2=-1;
 			if(currentsolution.havebetterneighbour==true) gotanswer=true ;
-			
+			else{gotanswer=false;}
 		}
 
 		if(gotanswer==true){ firstbestsolution=currentsolution;  break;}//as it is first best

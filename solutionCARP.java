@@ -14,8 +14,8 @@ public solutionCARP blockexchangebestsol ;
 //ADD here the bestIn neighborsolution
 public void removereplaceupdate(int i,int i1,int i2){
 
-//System.out.println("i: "+i+" i1: "+i1+" i2: "+i2);
-//System.out.println("processing path: "+finalans.get(i).answersequence);
+System.out.println("i: "+i+" i1: "+i1+" i2: "+i2);
+System.out.println("processing path: "+finalans.get(i).answersequence);
 				////CLONING
 	//MAKKE A COPY PF THIS SOLUTIONCARP HERE......AND USE IT AT 2 PLACES
 	//1.BEFORE 2JOINING
@@ -73,11 +73,11 @@ for(int k=i1;k<=i2;k++){
 }
 
 //System.out.println("answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
-//System.out.println("removed req E: "+removedreqE.answersequence);
+System.out.println("removed req E: "+removedreqE.answersequence);
 
 dijkstraCARP pathjoinI1I2=new dijkstraCARP ( (int)finalans.get(i).answersequence.get(i1) , (int)finalans.get(i).answersequence.get(i1+1));
 
-//System.out.println("dijkstra ka sol: "+pathjoinI1I2.pathsrctodest.answersequence);
+System.out.println("dijkstra ka sol: "+pathjoinI1I2.pathsrctodest.answersequence);
 
 //finalans.get(i).totalcost = finalans.get(i).totalcost + pathjoinI1I2.pathsrctodest.totalcost;
 //finalans.get(i).totaldemand = finalans.get(i).totaldemand + pathjoinI1I2.totaldemand;
@@ -87,7 +87,7 @@ dijkstraCARP pathjoinI1I2=new dijkstraCARP ( (int)finalans.get(i).answersequence
 
 joindijkstrapathI1I2(i ,i1 ,i2 , pathjoinI1I2.pathsrctodest) ;
 
-//System.out.println("after 1st joining: "+finalans.get(i).answersequence);
+System.out.println("after 1st joining: "+finalans.get(i).answersequence);
 //System.out.println("after 1st joining: answersequence.size: "+finalans.get(i).answersequence.size()+"costsequence.size: "+finalans.get(i).costsequence.size());
 
 	solutionCARP removedcopy=new solutionCARP();
@@ -110,7 +110,7 @@ joindijkstrapathI1I2(i ,i1 ,i2 , pathjoinI1I2.pathsrctodest) ;
 ///HERE I HAVE TWO OPTIONS TO REMOVE NONREQ EDGE WHTHER REMOVE 3 OR REMOVE WHOLE BLOCK 
 ////TRYING OPTION 1 :-REMOVE 3 NONREQEDGES
 for(int k=0;k<numberoftours;k++){
-	if(k!=i){	
+	if(k!=i && ((finalans.get(k).totaldemand+removedreqE.totaldemand) < (toplevel.input1.capacity))){	
 		int numnonreq=0;
 		for(int l=0;l<finalans.get(k).isrequiredEdge.size();l++){
 				if(finalans.get(k).isrequiredEdge.get(l)==false && l!=finalans.get(k).isrequiredEdge.size()){
@@ -132,6 +132,7 @@ for(int k=0;k<numberoftours;k++){
 						pathjoin1.pathsrctodest.combinepath(pathjoin2.pathsrctodest);
 						path pathjoincombined=pathjoin1.pathsrctodest ;
 						int numaddingvertices=pathjoincombined.isrequiredEdge.size();//COMPLETE
+							System.out.println("pathjoincombined: "+pathjoincombined.answersequence);
 						joindijkstrapathI1I2(k ,l-2 , l-2+numaddingvertices , pathjoincombined) ;
 							float oldcostCARP=this.costofsolutionCARP ;
 							this.costofsolutionCARP=0;	
@@ -145,7 +146,11 @@ for(int k=0;k<numberoftours;k++){
 							pl++;
 						}
 
-						if(oldcostCARP>this.costofsolutionCARP){havebetterneighbour=true ;}
+						if(currcopy.costofsolutionCARP>this.costofsolutionCARP){havebetterneighbour=true ;
+							int vertaddein=l-2;
+							System.out.println("added in:"+k+" at: "+vertaddein);
+							System.out.println("better cost as: oldcostCARP:- "+currcopy.costofsolutionCARP+" curr:- "+this.costofsolutionCARP);
+			               }
 						else{
 					this.finalans.set(k,removedcopy.finalans.get(k).clone());
 							//get our obj back 2nd cloning need
@@ -217,7 +222,6 @@ public void deletebetweenI1I2(int i,int i1,int i2){ /// i1 and i2 should be the 
 }
 
 public void joindijkstrapathI1I2(int i,int i1, int i2, path pathtobejoin){
-
 
 if(pathtobejoin.answersequence.size()==0){
 	if(finalans.get(i).answersequence.get(i1) ==finalans.get(i).answersequence.get(i1+1)){
