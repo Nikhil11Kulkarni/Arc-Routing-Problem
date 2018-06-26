@@ -60,7 +60,10 @@ cost1=scan.nextInt();
 demand1=scan.nextInt();
 way1=scan.nextInt();
 kerb1=scan.nextInt();
-
+if(capacity < demand1){
+	System.out.println("\n\n\n CAPACITY IS LESS THAN DEMAND OF EDGE: ("+i1+","+j1+")\n NO Solution\n Please give correct dataset");
+	System.exit(0);
+}
 
 reqEdge[i].setvertex(i1,j1);
 reqEdge[i].setcost(cost1);

@@ -1,3 +1,6 @@
+//AFTER COMPLETIOTN OF THE INITAL SOLUTION --> INPUT1 GETS CONVERTED IN ALLL NON-REQ EDGES 
+//SO INPUT1 IS CHANGING ; IF YOU NEED YOU HAVE TO CLONE() IT 
+
 //**check in required
 //if not possible or if not present
 //go for not required
@@ -34,6 +37,46 @@ public datainput input1 ;
 
 
 //UPDATE ALL ESSENTIALS GIVEN AT THE TOP OF THE INITIAL SOLUTION
+// public int initializewithNEG11(int[][] arr){
+// 	for(int p=0;p<arr.length;p++){
+// 		for(int q=0;q<arr[p].length;q++){
+// 			arr[p][q]=-1;
+// 		}
+// 	}	
+// return arr ;
+
+// }
+
+//separate function is given for below as if it is running slower ; don't call it
+// public void removedemandZerocycle(){
+// 	int[][] arrc1c2=new int[input1.numvertex][input1.numvertex]; //all -1 -1
+// 	boolean[] visited=new boolean[input1.numvertex];//all false
+// 	Arrays.fill(visited, false);
+// 	arrc1c2= initializewithNEG11(arrc1c2);//if here it gives any error try to assign it
+
+// 	for(int i=0;i<this.finalans.size();i++){
+// 		for(int j=0;j<this.finalans.get(i).isrequiredEdge.size();j++){
+// 			if(this.finalans.get(i).isrequiredEdge.get(j)==false){
+// 				if(visited[]==true){}//then remove and proceed
+				
+// 				else{
+// 				visited[this.finalans.get(i).answersequence.get(j)]=true;
+// 				arrc1c2[0]=j;					
+// 				}
+// 			}
+
+// 			else if(this.finalans.get(i).isrequiredEdge.get(j)==true){
+// 					Arrays.fill(visited,false);	
+// 					arrc1c2= initializewithNEG11(arrc1c2);		
+// 			}
+
+// 		}
+// 		//again alll false and all -1 -1
+// 	Arrays.fill(visited,false);	
+// 	arrc1c2= initializewithNEG11(arrc1c2);
+// 	}
+// }
+
 public void checkinrequired(){
 	boolean fits=false ;
 
@@ -104,6 +147,7 @@ this.currvertex=nonreqmatrInit.get(currvertex).get(some).jvertex ;
 
 //ON THE BASIS OF THE NO. OF NON-REQUIRED TRAVERSED
 if(nstop==50){
+	System.out.println("$$$ 50 nstops $$$");
 	dijkstra(currvertex);//gives entire path to the depot
 	this.nstop=0;
 }
@@ -239,6 +283,7 @@ remainpathstring.append(" - "); //DOUBLE -- WILL COME IF YOU HAVE APPLIED DIJKST
                 }
                    }
         }
+        System.out.println("NO DIJKSTRA PATH FROM "+src+" to depot "+input1.depotindex);
 }
 
 
@@ -299,6 +344,7 @@ for(int count=0;count<totalpathsinfinalans;count++){
 k++;
 
 }
+
 intitailsol=new solutionCARP();//This is made as final initial solutionCARP to print 
 for(int i=0;i<finalans.size();i++){
 	intitailsol.addanswerpath(finalans.get(i));
