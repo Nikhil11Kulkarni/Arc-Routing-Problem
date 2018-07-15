@@ -138,21 +138,26 @@ for(int k=0;k<numberoftours;k++){
 							this.costofsolutionCARP=0;	
 							this.numberoftours=0;
 						int pl=0;
-						for(int pq=0;pq<finalans.size();pq++){
+						System.out.println("finalans.size():"+finalans.size());
+						int fixednumtorun=finalans.size();//VERY VERY IMPORTAT --IF FINALANS.REMOVR HAPPENS THEN LOOP SHORTENS KEEEP CONCENTRATED
+						for(int pq=0;pq<fixednumtorun;pq++){
 							if(finalans.get(pl).totalrequiredserved==0 && finalans.get(pl).totaldemand==0){finalans.remove(pl); pl--;}
 							else{this.costofsolutionCARP=this.costofsolutionCARP+finalans.get(pl).totalcost ;
 									this.numberoftours++;
 								} 
 							pl++;
 						}
-
-						if(currcopy.costofsolutionCARP>this.costofsolutionCARP){havebetterneighbour=true ;
+						System.out.println("*****finalans.size():"+finalans.size());
+						if(currcopy.costofsolutionCARP>this.costofsolutionCARP || toplevel.checkforlocalOPT==1){ //CHECK EQUALITY IN TABULIST HERE ALSO CHECKFOR LOCALOPTIMUM 
+							havebetterneighbour=true ;
 							int vertaddein=l-2;
 							System.out.println("added in:"+k+" at: "+vertaddein);
 							System.out.println("better cost as: oldcostCARP:- "+currcopy.costofsolutionCARP+" curr:- "+this.costofsolutionCARP);
 			               }
 						else{
 					this.finalans.set(k,removedcopy.finalans.get(k).clone());
+					this.numberoftours=removedcopy.numberoftours;
+					this.costofsolutionCARP=removedcopy.costofsolutionCARP;
 							//get our obj back 2nd cloning need
 							//and again try for re-joiing double path combine 
 						}
@@ -280,6 +285,17 @@ public solutionCARP(){
 costofsolutionCARP=0;
 numberoftours=0;
 finalans=new Vector<path>();
+}
+
+public solutionCARP clone(){
+		solutionCARP currcopy=new solutionCARP();
+	currcopy.numberoftours=this.numberoftours;
+	currcopy.costofsolutionCARP=this.costofsolutionCARP;
+	currcopy.havebetterneighbour=false;
+		for(int a=0;a<this.finalans.size();a++){
+			currcopy.finalans.add(finalans.get(a).clone());
+		}
+return currcopy ;
 }
 
 public void addanswerpath(path ans1){
